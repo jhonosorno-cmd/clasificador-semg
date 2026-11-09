@@ -203,6 +203,8 @@ data/demo_cache.npz       Conjunto de prueba precomputado (usado por los scripts
 checkpoints/demo/         Pesos de los cuatro modelos del ensemble
 experimento_tiempo_real/  Medición de latencia y análisis de operación causal
 experimento_multisujeto/  Evaluación sobre los 11 sujetos (posterior a la tesis)
+experimento_loso/         Validación leave-one-subject-out con 11 sujetos (posterior a la tesis)
+tests/                    Pruebas de no fuga de datos del protocolo LOSO
 figuras_sustentacion/     Scripts de generación de figuras
 ```
 
