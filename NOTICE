@@ -7,9 +7,9 @@ NOTA SOBRE LOS DATOS
 
 La licencia cubre únicamente el código de este repositorio.
 
-Los datos de NinaPro DB3 empleados en este trabajo NO se distribuyen aquí y NO
-están cubiertos por esta licencia. Se obtienen de https://ninapro.hevs.ch/ bajo
-los términos de sus autores, y deben citarse según indica el README:
+Los registros de NinaPro DB3 (https://ninapro.hevs.ch/) se redistribuyen sin
+modificaciones como adjuntos de la versión data-v1 del repositorio, fuera del
+historial de git. NO están cubiertos por esta licencia y su uso exige citar:
 
   Atzori, M. et al. (2014). Electromyography data for non-invasive
   naturally-controlled robotic hand prostheses. Scientific Data, 1, 140053.

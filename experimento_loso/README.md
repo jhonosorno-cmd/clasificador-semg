@@ -18,23 +18,38 @@ Para cada sujeto `i` retenido:
 
 La repetición 6 nunca se usa para normalización ni para entrenamiento. Los sujetos de preentrenamiento se normalizan con sus repeticiones 1–4; el filtro pasabanda (filtfilt) se aplica sobre la grabación completa, como en el pipeline original. El ajuste fino entrena todas las capas con tasa de aprendizaje diferencial (clasificador 5e-4, resto 1e-4). Modelos: v10 (CyborgHybrid), v15 (aumentación de señal), v17 (132 características), v18 (autoatención). El ensemble es el promedio uniforme de probabilidades softmax.
 
-## Requisitos
+## Preparación (un solo comando)
 
-- Python 3.10 o superior.
-- Dependencias desde la raíz del repositorio:
-  ```bash
-  pip install -r requirements.txt
-  ```
-- GPU con CUDA recomendada. El experimento funciona en CPU, pero es considerablemente más lento.
-- Datos NinaPro DB3, Ejercicio A, descargados desde <https://ninapro.hevs.ch/>. Colocar los archivos `S1_E1_A1.mat` … `S11_E1_A1.mat` en `data/raw/`. Los datos no se incluyen en el repositorio.
+Requisitos: Python 3.10 o superior y Git. GPU NVIDIA recomendada; en CPU funciona, pero es mucho más lento.
 
-Cita de la base de datos:
+```bash
+git clone https://github.com/jhonosorno-cmd/clasificador-semg.git
+cd clasificador-semg
+bash experimento_loso/setup.sh        # Linux / macOS
+experimento_loso\setup.bat            # Windows
+```
+
+El script:
+
+1. Crea el entorno virtual `.venv` en la raíz del repositorio.
+2. Instala PyTorch con CUDA si detecta `nvidia-smi`, o la versión para CPU si no. Para otra versión de CUDA: `TORCH_INDEX_URL=https://download.pytorch.org/whl/cu128 bash experimento_loso/setup.sh`.
+3. Instala `requirements.txt` y `pytest`.
+4. Descarga los 11 registros de NinaPro DB3 (1,3 GB) desde la versión [`data-v1`](https://github.com/jhonosorno-cmd/clasificador-semg/releases/tag/data-v1) a `data/raw/` y verifica su SHA-256. Si se corta, volver a correrlo: solo baja lo que falta.
+5. Corre las pruebas y una prueba rápida del flujo completo, y borra sus resultados.
+
+Si la máquina tiene una GPU que PyTorch no puede usar (por ejemplo, una tarjeta antigua), el entrenamiento lo detecta y continúa en CPU automáticamente. Para forzar un dispositivo: `EXTRA_ARGS="--device cpu"` o `--device cuda`.
+
+Al terminar, activar el entorno antes de lanzar el entrenamiento: `source .venv/bin/activate` (Linux / macOS) o `.venv\Scripts\activate` (Windows). Con `SKIP_SMOKE=1` se omite la prueba rápida.
+
+Cita de la base de datos, obligatoria al usar los datos:
 
 > Atzori, M., Gijsberts, A., Castellini, C., Caputo, B., Hager, A.-G. M., Elsig, S., Giatsidis, G., Bassetto, F., & Müller, H. (2014). Electromyography data for non-invasive naturally-controlled robotic hand prostheses. *Scientific Data*, 1, 140053. https://doi.org/10.1038/sdata.2014.53
 
 Todos los comandos se ejecutan desde la raíz del repositorio (`D:\UV\Clasificador_SEMG` o equivalente).
 
-## Prueba rápida antes del run largo
+## Prueba rápida manual (si no se usó el setup)
+
+El setup ya la corre y limpia. Para hacerla a mano:
 
 ```bash
 python experimento_loso/run_loso.py --models v10 --subjects 1 --conditions zero --epochs 1 --ft-epochs 1 --max-batches 5 --force
@@ -50,13 +65,35 @@ Las cifras de esta prueba no significan nada: solo verifica que los datos cargan
 
 ## Ejecución
 
-Cada máquina toma un subconjunto de sujetos. Sin argumentos se ejecutan los 11.
+Con el entorno virtual activo, este comando corre los 11 sujetos con los 4 modelos y las 3 condiciones:
+
+```bash
+bash experimento_loso/run_all.sh          # Linux / macOS
+experimento_loso\run_all.bat              # Windows
+```
+
+En Linux conviene lanzarlo en segundo plano para que no se detenga al cerrar la terminal; el avance queda en `loso.log`:
+
+```bash
+nohup bash experimento_loso/run_all.sh > loso.log 2>&1 &
+```
+
+### Opcional: repartir entre varias máquinas o GPU
+
+Para terminar antes, cada máquina puede tomar un subconjunto de sujetos pasándolos como argumentos:
 
 | Máquina | Linux / macOS | Windows |
 |---------|---------------|---------|
 | A | `bash experimento_loso/run_all.sh 1 2 3 4` | `experimento_loso\run_all.bat 1 2 3 4` |
 | B | `bash experimento_loso/run_all.sh 5 6 7 8` | `experimento_loso\run_all.bat 5 6 7 8` |
 | C | `bash experimento_loso/run_all.sh 9 10 11` | `experimento_loso\run_all.bat 9 10 11` |
+
+En una máquina con varias GPU, una tanda de sujetos por GPU:
+
+```bash
+CUDA_VISIBLE_DEVICES=0 nohup bash experimento_loso/run_all.sh 1 2 3 4 5 6 > loso_a.log 2>&1 &
+CUDA_VISIBLE_DEVICES=1 nohup bash experimento_loso/run_all.sh 7 8 9 10 11 > loso_b.log 2>&1 &
+```
 
 Variables opcionales: `MODELS` (por defecto `v10 v15 v17 v18`) y `EXTRA_ARGS` (por ejemplo `EXTRA_ARGS="--seed 7"`, ver más abajo).
 
@@ -67,7 +104,7 @@ El proceso es **reanudable**: los resultados terminados se omiten. Si se corta, 
 - La carpeta `experimento_loso/resultados/` completa (archivos `.json` y `probs/*.npz`).
 - **No** enviar los checkpoints de `experimento_loso/checkpoints/`.
 
-Luego, en una sola máquina, unir las carpetas `resultados/` de todas las máquinas dentro de `experimento_loso/resultados/` y ejecutar:
+Si se corrió en una sola máquina, los resultados ya están juntos. Si se repartió entre varias, unir sus carpetas `resultados/` dentro de `experimento_loso/resultados/` de una sola máquina. En ambos casos, ejecutar:
 
 ```bash
 python experimento_loso/aggregate.py

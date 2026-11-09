@@ -34,15 +34,22 @@ solapamiento entre particiones.
 
 ## Datos
 
-Este repositorio **no distribuye los datos originales**. NinaPro DB3 se obtiene de
-<https://ninapro.hevs.ch/> bajo los términos de sus autores.
+Los registros originales de NinaPro DB3 (<https://ninapro.hevs.ch/>) se publican sin
+modificaciones como adjuntos de la versión
+[`data-v1`](https://github.com/jhonosorno-cmd/clasificador-semg/releases/tag/data-v1) de este
+repositorio, fuera del historial de git (1,3 GB). Se descargan y verifican con:
+
+```bash
+python experimento_loso/download_data.py
+```
 
 - **Conjunto:** NinaPro DB3, Ejercicio A
 - **Sujetos:** 11 personas con amputación transradial
 - **Adquisición:** 12 electrodos Delsys, 2 000 Hz, 6 repeticiones por movimiento
 - **Ubicación esperada:** `data/raw/S{n}_E1_A1.mat`
+- **Verificación:** sumas SHA-256 en `data/raw_manifest.sha256`
 
-Al usar estos datos debe citarse:
+Los datos no están cubiertos por la licencia de este repositorio. Al usarlos debe citarse:
 
 > Atzori, M., Gijsberts, A., Castellini, C., Caputo, B., Hager, A.-G. M., Elsig, S.,
 > Giatsidis, G., Bassetto, F., & Müller, H. (2014). *Electromyography data for
@@ -51,8 +58,7 @@ Al usar estos datos debe citarse:
 
 El archivo `data/demo_cache.npz` incluido en el repositorio contiene 1 914 ventanas
 derivadas del sujeto 1, repetición 6 —filtradas, normalizadas y segmentadas—, incorporadas
-para que los scripts de figuras puedan ejecutarse sin descargar NinaPro. No permite reconstruir el registro
-original. Se publica bajo los términos de NinaPro, que exigen citar el artículo anterior.
+para que los scripts de figuras puedan ejecutarse sin descargar los registros completos.
 
 ---
 
@@ -161,10 +167,19 @@ dilatadas). Aumentar la capacidad del modelo degrada el resultado.
 
 ## Reproducir
 
+La forma más corta es el script de preparación, que crea el entorno virtual `.venv`, instala
+PyTorch (con CUDA si detecta una GPU NVIDIA), descarga y verifica los datos y corre las pruebas:
+
+```bash
+bash experimento_loso/setup.sh        # Linux / macOS
+experimento_loso\setup.bat            # Windows
+```
+
+A mano:
+
 ```bash
 pip install -r requirements.txt
-
-# Colocar los .mat de NinaPro DB3 en data/raw/
+python experimento_loso/download_data.py   # datos en data/raw/
 
 python -m src.inspect_data        # verificar la carga
 python -m src.train_cyborg        # modelo base (v10)
@@ -172,7 +187,9 @@ python -m src.eval_ensemble_v18   # ensemble de 4 modelos
 ```
 
 Todos los scripts se ejecutan desde la raíz del proyecto. El dispositivo se detecta
-automáticamente (`cuda` si está disponible, `cpu` en caso contrario).
+automáticamente (`cuda` si está disponible, `cpu` en caso contrario). La validación
+leave-one-subject-out sobre los 11 sujetos se describe en
+[`experimento_loso/README.md`](experimento_loso/README.md).
 
 ---
 
