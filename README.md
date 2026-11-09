@@ -9,6 +9,9 @@ Universidad del Valle (Cali, Colombia). Incluye las arquitecturas evaluadas, el 
 final, el análisis de viabilidad de operación en tiempo real y los scripts
 que regeneran las figuras del documento.
 
+La demostración interactiva (Streamlit) está en un repositorio aparte:
+**[jhonosorno-cmd/clasificador-semg-demo](https://github.com/jhonosorno-cmd/clasificador-semg-demo)**.
+
 ---
 
 ## Resultado principal
