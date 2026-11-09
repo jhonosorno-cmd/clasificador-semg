@@ -1,0 +1,51 @@
+# ── Datos ────────────────────────────────────────────────────────────────────
+# Los registros de NinaPro DB3 se descargan desde la versión data-v1 del
+# repositorio con experimento_loso/download_data.py. Ver README, sección «Datos».
+data/raw/
+data/processed/
+*.mat
+
+# El cache de la demo sí se versiona: ventanas ya preprocesadas de S1 rep. 6.
+!data/demo_cache.npz
+
+# ── Pesos de modelos ─────────────────────────────────────────────────────────
+# Solo se versionan los 4 modelos del ensemble en versión ligera.
+*.pth
+*.pt
+*.ckpt
+!checkpoints/demo/*.pth
+experimento_loso/checkpoints/
+
+# ── Artefactos de construcción y ejecución ───────────────────────────────────
+dist/
+build/
+*.spec
+logs/
+*.log
+results/*.png
+results/*.html
+figuras_sustentacion/**/*.png
+figuras_sustentacion/**/*.svg
+figuras_sustentacion/**/*.pdf
+
+# ── Documentos ───────────────────────────────────────────────────────────────
+*.pdf
+*.md
+!README.md
+!experimento_loso/README.md
+
+# ── Python ───────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+Untitled*.ipynb
+
+# ── Editores y sistema ───────────────────────────────────────────────────────
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

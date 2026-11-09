@@ -1,0 +1,115 @@
+{
+  "model": "v10",
+  "subject": 5,
+  "seed": 42,
+  "protocol": "particion estandar: train reps 1-4, val rep 5, test rep 6; argmax sin umbral",
+  "timestamp": "2026-09-11T00:41:51",
+  "elapsed_min": 20.57,
+  "device": "cpu",
+  "epochs_run": 42,
+  "best_epoch": 27,
+  "best_val_accuracy": 0.6666666666666666,
+  "accuracy": 0.5416116248348745,
+  "balanced_accuracy": 0.32594065653832566,
+  "precision_macro": 0.3936897062284738,
+  "recall_macro": 0.32594065653832566,
+  "f1_macro": 0.3342379106605037,
+  "per_class_recall": [
+    0.8290155440414507,
+    0.04065040650406504,
+    0.2032520325203252,
+    0.52,
+    0.3884297520661157,
+    0.032520325203252036,
+    0.2677165354330709
+  ],
+  "confusion_matrix": [
+    [
+      640,
+      8,
+      31,
+      7,
+      36,
+      10,
+      40
+    ],
+    [
+      33,
+      5,
+      83,
+      0,
+      0,
+      1,
+      1
+    ],
+    [
+      77,
+      0,
+      25,
+      0,
+      0,
+      9,
+      12
+    ],
+    [
+      21,
+      0,
+      1,
+      65,
+      38,
+      0,
+      0
+    ],
+    [
+      18,
+      0,
+      2,
+      0,
+      47,
+      45,
+      9
+    ],
+    [
+      94,
+      2,
+      0,
+      0,
+      0,
+      4,
+      23
+    ],
+    [
+      59,
+      0,
+      2,
+      0,
+      21,
+      11,
+      34
+    ]
+  ],
+  "window_counts": {
+    "train_windows": 6056,
+    "val_windows": 1491,
+    "test_windows": 1514
+  },
+  "train_class_distribution": [
+    3161,
+    486,
+    499,
+    417,
+    500,
+    497,
+    496
+  ],
+  "test_class_distribution": [
+    772,
+    123,
+    123,
+    125,
+    121,
+    123,
+    127
+  ],
+  "checkpoint": "experimento_multisujeto/checkpoints/v10_S5_seed42.pth"
+}

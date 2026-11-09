@@ -1,0 +1,106 @@
+{
+  "descripcion": "Descomposicion del costo causal: filtro vs normalizacion, mas la variante filtfilt aplicado dentro de cada ventana ya capturada.",
+  "sujeto": 1,
+  "reps_calibracion": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "rep_prueba": [
+    6
+  ],
+  "theta": 0.36,
+  "ramas": {
+    "A_control": {
+      "filtro": "filtfilt(grabacion)",
+      "normalizacion": "z-score global"
+    },
+    "D0_causal_global": {
+      "filtro": "lfilter(grabacion)",
+      "normalizacion": "z-score global"
+    },
+    "B_zscore_calib": {
+      "filtro": "filtfilt(grabacion)",
+      "normalizacion": "z-score calibracion"
+    },
+    "C_filtfilt_vent": {
+      "filtro": "filtfilt(VENTANA)",
+      "normalizacion": "z-score calibracion"
+    },
+    "D_causal": {
+      "filtro": "lfilter(grabacion)",
+      "normalizacion": "z-score calibracion"
+    }
+  },
+  "controles_ok": true,
+  "timestamp": "2026-09-16T13:48:40",
+  "elapsed_min": 1.94,
+  "resultados": {
+    "A_control": {
+      "ventanas": 1914,
+      "argmax": {
+        "accuracy": 72.77951933124346,
+        "balanced_accuracy": 44.92164575773543,
+        "f1_macro": 0.5361810912007491
+      },
+      "umbral": {
+        "accuracy": 72.88401253918495,
+        "balanced_accuracy": 44.238708367434135,
+        "f1_macro": 0.5344051183029873
+      }
+    },
+    "D0_causal_global": {
+      "ventanas": 1914,
+      "argmax": {
+        "accuracy": 70.9508881922675,
+        "balanced_accuracy": 43.06506188387581,
+        "f1_macro": 0.503213043150292
+      },
+      "umbral": {
+        "accuracy": 71.05538140020899,
+        "balanced_accuracy": 41.673685030788654,
+        "f1_macro": 0.49644424090868094
+      }
+    },
+    "B_zscore_calib": {
+      "ventanas": 1914,
+      "argmax": {
+        "accuracy": 72.46603970741901,
+        "balanced_accuracy": 44.54096759499747,
+        "f1_macro": 0.5306469241961979
+      },
+      "umbral": {
+        "accuracy": 72.9362591431557,
+        "balanced_accuracy": 44.04705092926507,
+        "f1_macro": 0.5329083036931866
+      }
+    },
+    "C_filtfilt_vent": {
+      "ventanas": 1914,
+      "argmax": {
+        "accuracy": 72.3092998955068,
+        "balanced_accuracy": 43.37322031866726,
+        "f1_macro": 0.5108329168647724
+      },
+      "umbral": {
+        "accuracy": 72.15256008359457,
+        "balanced_accuracy": 42.62877389495748,
+        "f1_macro": 0.5082180391213108
+      }
+    },
+    "D_causal": {
+      "ventanas": 1914,
+      "argmax": {
+        "accuracy": 70.74190177638454,
+        "balanced_accuracy": 42.70990007755122,
+        "f1_macro": 0.5001450698566269
+      },
+      "umbral": {
+        "accuracy": 71.15987460815047,
+        "balanced_accuracy": 41.69558755321698,
+        "f1_macro": 0.4965374765920071
+      }
+    }
+  }
+}

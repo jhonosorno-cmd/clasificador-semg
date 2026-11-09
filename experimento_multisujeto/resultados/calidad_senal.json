@@ -1,0 +1,101 @@
+[
+  {
+    "subject": 1,
+    "ventanas": 11282,
+    "contraste_gesto_reposo": 1.678062776900578,
+    "fisher_7_clases": 0.13808726105869332,
+    "fisher_6_gestos": 0.12876775966237736,
+    "duracion_media_gesto_ventanas": 125.41666666666667,
+    "prop_reposo_total": 59.98049991136324
+  },
+  {
+    "subject": 2,
+    "ventanas": 11884,
+    "contraste_gesto_reposo": 3.1146117888349196,
+    "fisher_7_clases": 0.5993414353090732,
+    "fisher_6_gestos": 0.31895957813710374,
+    "duracion_media_gesto_ventanas": 82.0,
+    "prop_reposo_total": 75.15987882867722
+  },
+  {
+    "subject": 3,
+    "ventanas": 12323,
+    "contraste_gesto_reposo": 5.496189341729731,
+    "fisher_7_clases": 0.8175922196343931,
+    "fisher_6_gestos": 0.30112715809767915,
+    "duracion_media_gesto_ventanas": 56.02777777777778,
+    "prop_reposo_total": 83.63223241093888
+  },
+  {
+    "subject": 4,
+    "ventanas": 8837,
+    "contraste_gesto_reposo": 1.5819365685106468,
+    "fisher_7_clases": 0.23513903959329585,
+    "fisher_6_gestos": 0.07675163530397003,
+    "duracion_media_gesto_ventanas": 125.19444444444444,
+    "prop_reposo_total": 48.99852891252687
+  },
+  {
+    "subject": 5,
+    "ventanas": 9061,
+    "contraste_gesto_reposo": 1.2821766429075239,
+    "fisher_7_clases": 0.12826802688713737,
+    "fisher_6_gestos": 0.16274513191812875,
+    "duracion_media_gesto_ventanas": 121.66666666666667,
+    "prop_reposo_total": 51.66096457344664
+  },
+  {
+    "subject": 6,
+    "ventanas": 8795,
+    "contraste_gesto_reposo": 1.1447596623246208,
+    "fisher_7_clases": 0.13163433424467608,
+    "fisher_6_gestos": 0.1666029503374283,
+    "duracion_media_gesto_ventanas": 124.97222222222223,
+    "prop_reposo_total": 48.84593519044912
+  },
+  {
+    "subject": 7,
+    "ventanas": 8599,
+    "contraste_gesto_reposo": 1.0153592912470177,
+    "fisher_7_clases": 0.011457965716896109,
+    "fisher_6_gestos": 0.010889945012356211,
+    "duracion_media_gesto_ventanas": 122.52777777777777,
+    "prop_reposo_total": 48.70333759739505
+  },
+  {
+    "subject": 8,
+    "ventanas": 11088,
+    "contraste_gesto_reposo": 5.3056435986369355,
+    "fisher_7_clases": 0.6587887722991511,
+    "fisher_6_gestos": 0.3109379488609114,
+    "duracion_media_gesto_ventanas": 48.416666666666664,
+    "prop_reposo_total": 84.28030303030303
+  },
+  {
+    "subject": 9,
+    "ventanas": 10960,
+    "contraste_gesto_reposo": 2.367281677241334,
+    "fisher_7_clases": 0.41157971702129026,
+    "fisher_6_gestos": 0.32685335338137267,
+    "duracion_media_gesto_ventanas": 105.38888888888889,
+    "prop_reposo_total": 65.38321167883213
+  },
+  {
+    "subject": 10,
+    "ventanas": 8716,
+    "contraste_gesto_reposo": 1.1618619279479203,
+    "fisher_7_clases": 0.05795563278515238,
+    "fisher_6_gestos": 0.0680120367849433,
+    "duracion_media_gesto_ventanas": 119.83333333333333,
+    "prop_reposo_total": 50.504818724185405
+  },
+  {
+    "subject": 11,
+    "ventanas": 12261,
+    "contraste_gesto_reposo": 2.762756773068176,
+    "fisher_7_clases": 0.5426578732591304,
+    "fisher_6_gestos": 0.5163751371387182,
+    "duracion_media_gesto_ventanas": 82.72222222222223,
+    "prop_reposo_total": 75.71160590490173
+  }
+]

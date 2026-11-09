@@ -1,0 +1,78 @@
+{
+  "descripcion": "Ensemble 4M reentrenado con pipeline causal (lfilter + z-score de calibracion). Entrenamiento e inferencia comparten preprocesamiento.",
+  "sujeto": 1,
+  "semilla": 42,
+  "timestamp": "2026-09-15T14:57:08",
+  "individuales": {
+    "v10": {
+      "test_accuracy": 70.32,
+      "test_balanced": 42.6,
+      "epocas": 25,
+      "minutos": 14.82
+    },
+    "v15": {
+      "test_accuracy": 71.84,
+      "test_balanced": 46.42,
+      "epocas": 38,
+      "minutos": 22.72
+    },
+    "v17": {
+      "test_accuracy": 69.54,
+      "test_balanced": 38.37,
+      "epocas": 48,
+      "minutos": 41.1
+    },
+    "v18": {
+      "test_accuracy": 70.64,
+      "test_balanced": 41.99,
+      "epocas": 38,
+      "minutos": 25.02
+    }
+  },
+  "ensemble": {
+    "theta_documento_valor": 0.36,
+    "theta_recalibrado_valor": 0.46,
+    "argmax": {
+      "accuracy": 71.78683385579937,
+      "balanced_accuracy": 42.954179287943376,
+      "f1_macro": 0.514592679902506,
+      "recall_por_clase": [
+        96.21016365202412,
+        24.0,
+        23.200000000000003,
+        28.000000000000004,
+        32.0,
+        53.17460317460318,
+        44.09448818897638
+      ]
+    },
+    "theta_documento": {
+      "accuracy": 71.05538140020899,
+      "balanced_accuracy": 40.75496282787465,
+      "f1_macro": 0.4933498842833446,
+      "recall_por_clase": [
+        96.72695951765719,
+        20.0,
+        22.400000000000002,
+        26.400000000000002,
+        32.0,
+        45.23809523809524,
+        42.51968503937008
+      ]
+    },
+    "theta_recalibrado": {
+      "accuracy": 71.52560083594567,
+      "balanced_accuracy": 42.99734382593095,
+      "f1_macro": 0.5133721572182918,
+      "recall_por_clase": [
+        95.69336778639104,
+        24.0,
+        25.6,
+        28.000000000000004,
+        32.0,
+        52.38095238095239,
+        43.30708661417323
+      ]
+    }
+  }
+}

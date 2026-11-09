@@ -1,0 +1,21 @@
+=== RESUMEN DE EVALUACIÓN ===
+
+Accuracy General: 0.6526
+Total muestras: 2032
+Correctas: 1326
+Incorrectas: 706
+
+Reporte de clasificación:
+              precision    recall  f1-score   support
+
+     Gesto 0     0.9720    0.6894    0.8066      1761
+     Gesto 1     0.2248    0.4603    0.3021        63
+     Gesto 2     0.0930    0.1519    0.1154        79
+     Gesto 3     0.1450    0.4130    0.2147        46
+     Gesto 4     0.1679    0.4151    0.2391        53
+     Gesto 5     0.0992    1.0000    0.1806        13
+     Gesto 6     0.1288    1.0000    0.2282        17
+
+    accuracy                         0.6526      2032
+   macro avg     0.2615    0.5900    0.2981      2032
+weighted avg     0.8623    0.6526    0.7271      2032

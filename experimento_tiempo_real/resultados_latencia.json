@@ -1,0 +1,68 @@
+{
+  "descripcion": "Latencia por etapa sobre UNA ventana de 250 ms, filtro cronometrado por ventana (configuracion implementable en vivo). Varias tandas independientes: la mediana de una sola tanda no es reproducible.",
+  "calentamiento": 20,
+  "corridas_por_tanda": 200,
+  "tandas": 5,
+  "timestamp": "2026-09-16T16:16:12",
+  "etapas_ms": {
+    "Diezmado x4 (ventana)": {
+      "mediana": 0.00039999940781854093,
+      "p95": 0.0005000001692678779,
+      "minimo": 0.0002999986463692039,
+      "mediana_min": 0.00039999940781854093,
+      "mediana_max": 0.00039999940781854093
+    },
+    "Filtro fase cero POR VENTANA": {
+      "mediana": 1.8691000004764646,
+      "p95": 3.727969997635227,
+      "minimo": 1.5260000000125729,
+      "mediana_min": 1.5793500006111572,
+      "mediana_max": 3.4520999979577027
+    },
+    "Filtro causal incremental": {
+      "mediana": 0.12069999866071157,
+      "p95": 0.17731000025378307,
+      "minimo": 0.11150000136694871,
+      "mediana_min": 0.11484999959066045,
+      "mediana_max": 0.12489999971876387
+    },
+    "Normalizacion Z-score": {
+      "mediana": 0.013299999409355223,
+      "p95": 0.01572999954078111,
+      "minimo": 0.012600001355167478,
+      "mediana_min": 0.013199998647905886,
+      "mediana_max": 0.013299999409355223
+    },
+    "Canal RMS agregado": {
+      "mediana": 0.015599998732795939,
+      "p95": 0.017504998686490577,
+      "minimo": 0.014799999917158857,
+      "mediana_min": 0.015500001609325409,
+      "mediana_max": 0.015600002370774746
+    },
+    "Extraccion de 48 caracteristicas": {
+      "mediana": 0.6252000021049753,
+      "p95": 1.2549200018838746,
+      "minimo": 0.5794000026071444,
+      "mediana_min": 0.6183000004966743,
+      "mediana_max": 0.6388500005414244
+    },
+    "Inferencia del Ensemble 4M": {
+      "mediana": 16.738899999836576,
+      "p95": 29.871060000186844,
+      "minimo": 9.761500001332024,
+      "mediana_min": 16.298399999868707,
+      "mediana_max": 17.5703999993857
+    }
+  },
+  "subtotal_preprocesamiento_ms": {
+    "mediana": 2.5236000001314096,
+    "p95": 5.016624997915641,
+    "minimo": 2.133100002538413
+  },
+  "total_ms": {
+    "mediana": 19.262499999967986,
+    "p95": 34.887684998102486,
+    "minimo": 11.894600003870437
+  }
+}

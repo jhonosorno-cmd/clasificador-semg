@@ -1,0 +1,10 @@
+{
+  "model": "ensemble_4m",
+  "fold": 6,
+  "test_rep": 6,
+  "accuracy": 0.7277951933124347,
+  "balanced_accuracy": 0.44921645757735434,
+  "precision_macro": 0.7586125171969227,
+  "recall_macro": 0.44921645757735434,
+  "f1_macro": 0.5361810912007491
+}

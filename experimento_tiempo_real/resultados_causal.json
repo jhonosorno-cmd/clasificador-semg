@@ -1,0 +1,80 @@
+{
+  "descripcion": "Costo de sustituir filtfilt por lfilter y el z-score global por estadisticos fijos de calibracion, sobre los modelos ya entrenados.",
+  "sujeto": 1,
+  "reps_calibracion": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "rep_prueba": [
+    6
+  ],
+  "theta": 0.36,
+  "timestamp": "2026-09-15T11:58:57",
+  "elapsed_min": 0.68,
+  "resultados": {
+    "offline": {
+      "ventanas": 1914,
+      "argmax": {
+        "accuracy": 72.77951933124346,
+        "balanced_accuracy": 44.92164575773543,
+        "f1_macro": 0.5361810912007491,
+        "recall_por_clase": [
+          96.38242894056847,
+          34.4,
+          27.200000000000003,
+          27.200000000000003,
+          32.0,
+          53.17460317460318,
+          44.09448818897638
+        ]
+      },
+      "umbral": {
+        "accuracy": 72.88401253918495,
+        "balanced_accuracy": 44.238708367434135,
+        "f1_macro": 0.5344051183029873,
+        "recall_por_clase": [
+          97.1576227390181,
+          32.800000000000004,
+          27.200000000000003,
+          27.200000000000003,
+          32.0,
+          50.79365079365079,
+          42.51968503937008
+        ]
+      }
+    },
+    "causal": {
+      "ventanas": 1914,
+      "argmax": {
+        "accuracy": 70.9508881922675,
+        "balanced_accuracy": 43.06506188387581,
+        "f1_macro": 0.503213043150292,
+        "recall_por_clase": [
+          94.57364341085271,
+          36.8,
+          23.200000000000003,
+          20.0,
+          31.2,
+          51.587301587301596,
+          44.09448818897638
+        ]
+      },
+      "umbral": {
+        "accuracy": 71.05538140020899,
+        "balanced_accuracy": 41.673685030788654,
+        "f1_macro": 0.49644424090868094,
+        "recall_por_clase": [
+          95.95176571920759,
+          33.6,
+          23.200000000000003,
+          20.0,
+          31.2,
+          46.03174603174603,
+          41.732283464566926
+        ]
+      }
+    }
+  }
+}

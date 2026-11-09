@@ -1,0 +1,10 @@
+{
+  "model": "v18",
+  "fold": 3,
+  "test_rep": 3,
+  "accuracy": 0.6926777124532336,
+  "balanced_accuracy": 0.47604183420247514,
+  "precision_macro": 0.5920274891042296,
+  "recall_macro": 0.47604183420247514,
+  "f1_macro": 0.5141833209306451
+}
