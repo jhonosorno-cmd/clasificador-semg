@@ -225,5 +225,5 @@ El archivo `CITATION.cff` contiene los mismos metadatos en formato legible por m
 
 ## Licencia
 
-Código bajo licencia [MIT](LICENSE). Los datos de NinaPro DB3 no están cubiertos por esta
+Código bajo licencia [Apache 2.0](LICENSE); ver también [NOTICE](NOTICE). Los datos de NinaPro DB3 no están cubiertos por esta
 licencia y se rigen por los términos de sus autores.

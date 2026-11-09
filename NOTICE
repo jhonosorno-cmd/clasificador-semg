@@ -1,0 +1,20 @@
+Clasificador sEMG
+Copyright 2026 Jhon Alexander Osorno Pacheco
+
+Este producto se distribuye bajo la Licencia Apache, versión 2.0 (ver LICENSE).
+
+NOTA SOBRE LOS DATOS
+
+La licencia cubre únicamente el código de este repositorio.
+
+Los datos de NinaPro DB3 empleados en este trabajo NO se distribuyen aquí y NO
+están cubiertos por esta licencia. Se obtienen de https://ninapro.hevs.ch/ bajo
+los términos de sus autores, y deben citarse según indica el README:
+
+  Atzori, M. et al. (2014). Electromyography data for non-invasive
+  naturally-controlled robotic hand prostheses. Scientific Data, 1, 140053.
+  https://doi.org/10.1038/sdata.2014.53
+
+El archivo data/demo_cache.npz contiene ventanas de EMG derivadas de NinaPro DB3
+(sujeto 1, repetición 6), filtradas y normalizadas, incluidas para que los scripts
+de figuras puedan ejecutarse sin descargar el conjunto completo.

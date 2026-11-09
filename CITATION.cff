@@ -13,7 +13,7 @@ authors:
     given-names: "Jhon Alexander"
     affiliation: "Universidad del Valle, Escuela de Ingeniería Eléctrica y Electrónica"
     # orcid: "https://orcid.org/0000-0000-0000-0000"   # ← añadir si tiene ORCID
-license: MIT
+license: Apache-2.0
 repository-code: "https://github.com/jhonosorno-cmd/clasificador-semg"
 keywords:
   - electromiografía
