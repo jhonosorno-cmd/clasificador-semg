@@ -195,23 +195,6 @@ Conviene tenerlas presentes al interpretar las cifras:
 
 ---
 
-## Diferencias con el documento de tesis
-
-El documento de tesis ya fue calificado y no se modifica. Este README sigue lo que hace el
-código; donde ambos difieren, la referencia es el código:
-
-| Tema | Documento | Código |
-|---|---|---|
-| Semilla de v10 | Semilla 42 para los cuatro modelos | v10 se entrenó sin semilla fija (`src/train_cyborg.py`) |
-| Mixup en v10 | No figura en la tabla de hiperparámetros | Activo durante el entrenamiento (α = 0,4) |
-| Proporción de cada gesto | «apenas un 8 %» (resumen) | ≈ 6,5 % (125–127 de 1 914 ventanas de prueba) |
-| Ventanas de entrenamiento de S1 | ≈ 5 700 (metodología) y 7 468 (anexos) | 7 468 |
-| Referencia de NinaPro DB3 | Atzori et al. (2015), *IEEE TNSRE* | Se cita además Atzori et al. (2014), *Scientific Data*, artículo que describe DB3 |
-
-Ninguna de estas diferencias altera las cifras de resultados reportadas.
-
----
-
 ## Estructura
 
 ```
