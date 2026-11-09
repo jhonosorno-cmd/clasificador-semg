@@ -18,7 +18,7 @@ La demostración interactiva (Streamlit) está en un repositorio aparte:
 
 | | Exactitud | Exactitud balanceada |
 |---|---|---|
-| CyborgHybrid (v10) | 71,32 % | — |
+| CyborgHybrid (v10) | 71,32 % | 41,92 % |
 | Características extendidas 132D (v17) | 71,89 % | 44,10 % |
 | Auto-atención sobre BiLSTM (v18) | 71,63 % | 45,37 % |
 | **Ensemble 4M** (argmax) | **72,78 %** | 44,92 % |
@@ -126,6 +126,11 @@ Con un paso de 50 ms, el sistema consume el **41 %** del presupuesto disponible.
 de establecimiento es de **271 ms**, del cual el 92 % corresponde a la longitud de la
 ventana y no al cómputo; a partir de ahí la salida se actualiza a **20 Hz**.
 
+El p95 es sensible a la carga del equipo: en corridas repetidas llegó a ser cerca de un 40 %
+mayor, sin acercarse al límite de 50 ms. En flujo continuo la decisión se toma por argmax:
+el umbral θ = 0,36 se ajustó sobre el pipeline fuera de línea y no se traslada a esta
+configuración.
+
 Adaptar el pipeline a flujo continuo exige dos ajustes —aplicar el filtro a cada ventana ya
 capturada en lugar de al registro completo, y fijar los estadísticos de normalización en una
 calibración previa— con un costo medido de **0,47 puntos porcentuales** de exactitud global
@@ -146,7 +151,7 @@ son parte del aporte:
 | CNN 2D sobre espectrograma STFT | 68,70 % | Resolución de ~15,6 Hz insuficiente; una clase colapsa a 0 % |
 | Características espectrales (MNF, MDF) | 70,32 % | Welch sobre 125 muestras produce estimaciones ruidosas |
 | Cascada binario + 6 gestos | 70,27 % | El clasificador binario enruta demasiado hacia reposo |
-| Ensemble de 5 modelos | 72,26 % | Dilución: peor que el de 2 modelos |
+| Ensemble de 5 modelos | 72,26–72,78 % | Dilución: ninguna combinación de 5 supera al ensemble 4M |
 
 **El patrón dominante:** para secuencias de 15 marcos temporales y datos limitados, el BiLSTM
 con compuertas supera consistentemente a los mecanismos sin estado (atención, convoluciones
@@ -175,9 +180,9 @@ automáticamente (`cuda` si está disponible, `cpu` en caso contrario).
 
 Conviene tenerlas presentes al interpretar las cifras:
 
-- **Los resultados principales corresponden a un solo sujeto** (S1). Los experimentos
-  multisujeto están incluidos, pero las cifras reportadas arriba no generalizan a los 11
-  sujetos del conjunto.
+- **Los resultados principales corresponden a un solo sujeto** (S1) y no generalizan a los
+  11 sujetos del conjunto. La evaluación sobre los 11 sujetos de `experimento_multisujeto/`
+  es un análisis posterior al documento de tesis y no forma parte de él.
 - **No se alcanza la línea base de 79,72 %**, obtenida sobre un protocolo y una población
   distintos.
 - **v10 se entrenó sin semilla fija.** Reentrenarlo con semilla produce 70,79 % en lugar del
@@ -190,6 +195,23 @@ Conviene tenerlas presentes al interpretar las cifras:
 
 ---
 
+## Diferencias con el documento de tesis
+
+El documento de tesis ya fue calificado y no se modifica. Este README sigue lo que hace el
+código; donde ambos difieren, la referencia es el código:
+
+| Tema | Documento | Código |
+|---|---|---|
+| Semilla de v10 | Semilla 42 para los cuatro modelos | v10 se entrenó sin semilla fija (`src/train_cyborg.py`) |
+| Mixup en v10 | No figura en la tabla de hiperparámetros | Activo durante el entrenamiento (α = 0,4) |
+| Proporción de cada gesto | «apenas un 8 %» (resumen) | ≈ 6,5 % (125–127 de 1 914 ventanas de prueba) |
+| Ventanas de entrenamiento de S1 | ≈ 5 700 (metodología) y 7 468 (anexos) | 7 468 |
+| Referencia de NinaPro DB3 | Atzori et al. (2015), *IEEE TNSRE* | Se cita además Atzori et al. (2014), *Scientific Data*, artículo que describe DB3 |
+
+Ninguna de estas diferencias altera las cifras de resultados reportadas.
+
+---
+
 ## Estructura
 
 ```
@@ -197,9 +219,8 @@ src/                      Modelos, carga de datos, entrenamiento y evaluación
 data/demo_cache.npz       Conjunto de prueba precomputado (usado por los scripts de figuras)
 checkpoints/demo/         Pesos de los cuatro modelos del ensemble
 experimento_tiempo_real/  Medición de latencia y análisis de operación causal
-experimento_multisujeto/  Evaluación sobre los 11 sujetos
+experimento_multisujeto/  Evaluación sobre los 11 sujetos (posterior a la tesis)
 figuras_sustentacion/     Scripts de generación de figuras
-configs/                  Parámetros de los experimentos
 ```
 
 ---
