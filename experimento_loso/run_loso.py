@@ -18,6 +18,7 @@ import json
 import os
 import platform
 import random
+import subprocess
 import sys
 import time
 from datetime import datetime
@@ -44,7 +45,7 @@ os.chdir(ROOT)  # config paths (data/raw, checkpoints) are relative to the repo 
 
 from experimento_loso.loso_core import ALL_SUBJECTS, CONDITIONS, FoldPlan, fold_plan  # noqa: E402
 from experimento_loso.loso_dataset import LOSODataset, LOSOExtendedDataset  # noqa: E402
-from src.config import BATCH_SIZE, DEVICE, SEED  # noqa: E402
+from src.config import BATCH_SIZE, SEED  # noqa: E402
 from src.train_loro_cv import (  # noqa: E402
     build_model,
     calculate_class_weights,
@@ -61,12 +62,16 @@ WEIGHT_DECAY = 1e-4
 NUM_CLASSES = 7
 
 
-def set_seed(seed: int) -> None:
-    """Seeds python, numpy and torch (CPU and CUDA) before each run."""
+def set_seed(seed: int, device: torch.device) -> None:
+    """Seeds python, numpy and torch before each run.
+
+    CUDA is seeded only when training runs on it: touching an unusable GPU
+    (see ``resolve_device``) raises even if ``torch.cuda.is_available()`` is True.
+    """
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
-    if torch.cuda.is_available():
+    if device.type == "cuda":
         torch.cuda.manual_seed_all(seed)
 
 
@@ -179,7 +184,7 @@ def pretrain(
         print(f"  [pretrain] loaded {ckpt_path.name}")
         return model, ckpt["meta"], ckpt_path
 
-    set_seed(args.seed)
+    set_seed(args.seed, device)
     model = build_model(model_name).to(device)
     stats = {s: plan.train_reps for s in plan.train_subjects}
     train_ds = make_dataset(model_name, list(plan.train_subjects), plan.train_reps, stats,
@@ -209,7 +214,7 @@ def finetune(
     args: argparse.Namespace, device: torch.device,
 ) -> tuple[dict, dict, Path]:
     """Fine-tunes ``model`` in place on the held-out subject's calibration reps."""
-    set_seed(args.seed)
+    set_seed(args.seed, device)
     stats = {subject: plan.calib_reps}
     ft_ds = make_dataset(model_name, [subject], plan.finetune_reps, stats, "train",
                          model_name == "v15", subject)
@@ -319,6 +324,60 @@ def run_fold(model_name: str, subject: int, args: argparse.Namespace,
     return out
 
 
+_CUDA_PROBE = (
+    "import sys, torch; "
+    "ok = torch.cuda.is_available() and (torch.zeros(1, device='cuda') + 1).item() == 1; "
+    "sys.exit(0 if ok else 1)"
+)
+
+
+def cuda_usable() -> bool:
+    """Checks in a separate process whether CUDA can actually run a kernel.
+
+    ``torch.cuda.is_available()`` can be True on GPUs the installed build cannot
+    run (old architectures, devices held by another process). Recent PyTorch
+    optimizers query the accelerator even when training on CPU, so a broken GPU
+    must be hidden before CUDA is ever touched; probing in a child process keeps
+    this process clean.
+
+    Returns:
+        True if a CUDA kernel ran successfully.
+    """
+    try:
+        return subprocess.run([sys.executable, "-c", _CUDA_PROBE], timeout=180,
+                              capture_output=True).returncode == 0
+    except (OSError, subprocess.TimeoutExpired):
+        return False
+
+
+def resolve_device(choice: str) -> torch.device:
+    """Returns the training device; GPU visibility was settled in ``main``.
+
+    Args:
+        choice: 'auto', 'cuda' or 'cpu'.
+
+    Returns:
+        The device to use.
+
+    Raises:
+        RuntimeError: If 'cuda' was requested and is not available.
+    """
+    if choice != "cpu" and torch.cuda.is_available():
+        print(f"[INFO] Device: cuda ({torch.cuda.get_device_name(0)})")
+        return torch.device("cuda")
+    if choice == "cuda":
+        raise RuntimeError("CUDA requested but not available")
+    print("[INFO] Device: cpu")
+    return torch.device("cpu")
+
+
+def relaunch_without_gpu() -> int:
+    """Re-runs this script with every GPU hidden and returns its exit code."""
+    env = dict(os.environ, CUDA_VISIBLE_DEVICES="-1")  # "" counts as unset on Windows
+    return subprocess.call([sys.executable, str(Path(__file__).resolve()), *sys.argv[1:]],
+                           env=env)
+
+
 def main() -> int:
     """CLI entry point."""
     parser = argparse.ArgumentParser(description="LOSO runner for NinaPro DB3")
@@ -335,9 +394,19 @@ def main() -> int:
     parser.add_argument("--max-batches", type=int, default=None,
                         help="Cap batches per epoch (train and eval); smoke tests only")
     parser.add_argument("--force", action="store_true")
+    parser.add_argument("--device", choices=["auto", "cuda", "cpu"], default="auto",
+                        help="auto = CUDA if usable, else CPU")
     args = parser.parse_args()
 
-    device = torch.device(DEVICE)
+    gpu_hidden = os.environ.get("CUDA_VISIBLE_DEVICES") in ("", "-1")
+    if not gpu_hidden and torch.cuda.is_available() and args.device != "cuda":
+        if args.device == "cpu":
+            return relaunch_without_gpu()
+        if not cuda_usable():
+            print("[WARN] A GPU is present but CUDA cannot run on it; "
+                  "relaunching on CPU with the GPU hidden")
+            return relaunch_without_gpu()
+    device = resolve_device(args.device)
     missing = [s for s in ALL_SUBJECTS
                if not (ROOT / "data" / "raw" / f"S{s}_E1_A1.mat").exists()]
     if missing:
@@ -364,6 +433,10 @@ def main() -> int:
     print(f"{'model':<6}{'subj':<6}{'cond':<6}{'acc':>9}{'bal':>9}  note")
     for m, s, c, a, b, note in summary:
         print(f"{m:<6}S{s:<5}{c:<6}{a:>9}{b:>9}  {note}")
+    failed = [row for row in summary if row[5]]
+    if failed:
+        print(f"\n[ERROR] {len(failed)} run(s) failed or were skipped; see notes above.")
+        return 1
     return 0
 
 
